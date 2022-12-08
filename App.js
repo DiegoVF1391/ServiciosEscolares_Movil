@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+/*import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
@@ -17,4 +17,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+});*/
+
+import React from 'react';
+import {StatusBar, Text, View} from 'react-native';
+import Navigation from './src/components/Navigation';
+import {AuthProvider} from './src/context/AuthContext';
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <StatusBar backgroundColor="#06bcee" />
+      <Navigation />
+    </AuthProvider>
+  );
+};
+
+export default App;
