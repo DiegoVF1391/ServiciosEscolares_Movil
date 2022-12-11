@@ -49,6 +49,7 @@ export const AuthProvider = ({children}) => {
       })
       .catch(e => {
         console.log(`login error ${e}`);
+        console.info(`${BASE_URL}`);
         setIsLoading(false);
       });
   };
