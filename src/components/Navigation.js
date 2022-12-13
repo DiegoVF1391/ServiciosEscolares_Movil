@@ -8,6 +8,8 @@ import {AuthContext} from '../context/AuthContext';
 import SplashScreen from '../screens/SplashScreen';
 import SolicitudesScreen from '../screens/SolicitudesScreen';
 import BitacorasScreen from '../screens/BitacorasScreen';
+import MostrarSolicitudesScreen from '../screens/MostrarSolicitudesScreen';
+import MostrarBitacorasScreen from '../screens/MostrarBitacorasScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +30,8 @@ const Navigation = () => {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="Solicitudes" component={SolicitudesScreen} />
             <Stack.Screen name="Bitacoras" component={BitacorasScreen} />
+            <Stack.Screen name="Mostrar Solicitudes" component={MostrarSolicitudesScreen} />
+            <Stack.Screen name="Mostrar Bitacoras" component={MostrarBitacorasScreen} />
           </>
         ) : (
           <>

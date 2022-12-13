@@ -2,8 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View, FlatList} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
-import axios from 'axios';
-import {BASE_URL} from '../config';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const HomeScreen = ({navigation, route}) => {

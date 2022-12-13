@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View, FlatList} from 'react-native';
+import {Button, StyleSheet, Text, View, FlatList, SafeAreaView, ScrollView} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
 import {BASE_URL} from '../config';
@@ -27,26 +28,69 @@ const BitacorasScreen = ({navigation, route}) => {
     getBitacoras();
   }, [route.params?.bitacoras]);
   
-  return (
-    <View style={styles.container}>
-      <Spinner visible={isLoading} />
-      <Text style={styles.welcome}>Bitacoras</Text>
-      <FlatList
-        data={bitacoras}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity
-              style={styles.itemWrapper}>
-              <Text style={styles.title}>{item.nombre}</Text>
-              <Text>{item.descripcion}</Text>
-              <Text style={styles.author}>{item.estado}</Text>
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={item => item.id}
-      />
+  if(Object.keys(bitacoras).length == 0){
+    return(
+	<View style={styles.container}>
+		<Spinner visible={isLoading} />
+      	<Text style={styles.welcome}>No tienes ninguna bitacora registrada</Text>
     </View>
-  );
+    );
+  }
+  else{
+	return (
+        <SafeAreaView>
+            <ScrollView>
+            <View style={styles.container}>
+          <Spinner visible={isLoading} />
+          <Text style={styles.welcome}>Bitacoras</Text>
+          <FlatList
+            data={bitacoras}
+            renderItem={({item}) => {
+              return (
+                <TouchableWithoutFeedback
+                onPress={() => {
+                  navigation.navigate('Mostrar Bitacoras');
+                }}>
+                <View style={styles.mainCardView}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: "#030303",
+                          fontWeight: 'bold',
+                          textTransform: 'capitalize',
+                        }}>
+                        {item.actividad}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 4,
+                          borderWidth: 0,
+                          width: '85%',
+                        }}>
+                        <Text
+                          style={{
+                            color: "#919191",
+                            fontSize: 12,
+                          }}>
+                          Descripción: {item.descripcion}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+              );
+            }}
+            keyExtractor={item => item.id}
+          />
+        </View>
+        <Button title="Crear nueva bitacora" onPress={console.log("Nueva bitacora")} />
+            </ScrollView>
+        </SafeAreaView>
+      );
+  }
 };
 
 const styles = StyleSheet.create({

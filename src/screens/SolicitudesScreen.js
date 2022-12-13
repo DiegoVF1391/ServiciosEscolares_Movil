@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View, FlatList} from 'react-native';
+import {Button, StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 
 const SolicitudesScreen = ({navigation, route}) => {
-  const {userInfo, isLoading, logout} = useContext(AuthContext);
+  const {userInfo, isLoading} = useContext(AuthContext);
   const [servicios, setServicios] = useState({});
 
   const getServicios = () => {
@@ -27,26 +28,84 @@ const SolicitudesScreen = ({navigation, route}) => {
     getServicios();
   }, [route.params?.servicios]);
 
-  return (
-    <View style={styles.container}>
-      <Spinner visible={isLoading} />
-      <Text style={styles.welcome}>Solicitudes</Text>
-      <FlatList
-        data={servicios}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity
-              style={styles.itemWrapper}>
-              <Text style={styles.title}>{item.nombre}</Text>
-              <Text>{item.descripcion}</Text>
-              <Text style={styles.author}>{item.estado}</Text>
-            </TouchableOpacity>
-          );
-        }}
-        keyExtractor={item => item.id}
-      />
-    </View>
-  );
+  if(Object.keys(servicios).length == 0){
+    return(
+        <View style={styles.container}>
+            <Spinner visible={isLoading} />
+              <Text style={styles.welcome}>No tienes ninguna solicitud asignada</Text>
+        </View>
+    );
+  }
+  else{
+	return (
+        <SafeAreaView>
+            <ScrollView>
+            <View style={styles.container}>
+          <Spinner visible={isLoading} />
+          <Text style={styles.welcome}>Solicitudes</Text>
+          <FlatList
+            data={servicios}
+            renderItem={({item}) => {
+              return (
+                <TouchableWithoutFeedback
+                onPress={() => {
+                  navigation.navigate('Mostrar Solicitudes');
+                }}>
+                <View style={styles.mainCardView}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: "#030303",
+                          fontWeight: 'bold',
+                          textTransform: 'capitalize',
+                        }}>
+                        {item.nombre}
+                      </Text>
+                      <View
+                        style={{
+                          marginTop: 4,
+                          borderWidth: 0,
+                          width: '85%',
+                        }}>
+                        <Text
+                          style={{
+                            color: "#919191",
+                            fontWeight: 'bold',
+                            fontSize: 12,
+                          }}>
+                          Estado: {item.estado}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          marginTop: 4,
+                          borderWidth: 0,
+                          width: '85%',
+                        }}>
+                        <Text
+                          style={{
+                            color: "#919191",
+                            fontSize: 12,
+                          }}>
+                          Descripción: {item.descripcion}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+              );
+            }}
+            keyExtractor={item => item.id}
+          />
+        </View>
+        <Button title="Crear nueva solicitud" onPress={console.log("Nueva Solicitud")} />
+            </ScrollView>
+        </SafeAreaView>
+      );
+  }
 };
 
 const styles = StyleSheet.create({
