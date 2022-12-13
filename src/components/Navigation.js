@@ -11,6 +11,7 @@ import BitacorasScreen from '../screens/BitacorasScreen';
 import MostrarSolicitudesScreen from '../screens/MostrarSolicitudesScreen';
 import MostrarBitacorasScreen from '../screens/MostrarBitacorasScreen';
 import CrearBitacoraScreen from '../screens/CrearBitacoraScreen';
+import CrearSolicitudScreen from '../screens/CrearSolicitudScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,7 @@ const Navigation = () => {
             <Stack.Screen name="Mostrar Solicitudes" component={MostrarSolicitudesScreen} />
             <Stack.Screen name="Mostrar Bitacoras" component={MostrarBitacorasScreen} />
             <Stack.Screen name="Crear Bitacora" component={CrearBitacoraScreen} />
+            <Stack.Screen name="Crear Solicitud" component={CrearSolicitudScreen} />
           </>
         ) : (
           <>

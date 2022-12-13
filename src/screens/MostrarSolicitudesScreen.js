@@ -1,104 +1,116 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View, FlatList} from 'react-native';
+import {Button, StyleSheet, Text, View, FlatList, TextInput} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 
 const MostrarSolicitudesScreen = ({navigation, route}) => {
-  const {userInfo, isLoading, logout} = useContext(AuthContext);
+  const {userInfo} = useContext(AuthContext);
   const [bitacoras, setBitacoras] = useState({});
+  const servicio = route.params.servicio;
+  const [nombre, setNombre] = useState(servicio.nombre);
+  const [descripcion, setDescripcion] = useState(servicio.descripcion);
+  const [loading, setLoading] = useState(false);
 
-  {/*const getBitacoras = () => {
+  console.log(servicio);
+
+  const editServicio = () => {
+    setLoading(true);
+
     axios
-      .get(`${BASE_URL}/bitacoras`, {
+      .put(
+        `${BASE_URL}/servicios/${servicio.id_solicitud}`,
+        {
+          nombre,
+          descripcion,
+        },
+        {
+          headers: {Authorization: `Bearer ${userInfo.access_token}`},
+        },
+      )
+      .then(res => {
+        setLoading(false);
+        console.log(res.data);
+        navigation.navigate('Home');
+      })
+      .catch(e => {
+        setLoading(false);
+        console.log(`Error on updating post ${e.message}`);
+      });
+  };
+
+  const deleteServicio = () => {
+    setLoading(true);
+
+    axios
+      .delete(`${BASE_URL}/servicios/${servicio.id_solicitud}`, {
         headers: {Authorization: `Bearer ${userInfo.access_token}`},
       })
       .then(res => {
         console.log(res.data);
-        setBitacoras(res.data);
+        setLoading(false);
+        navigation.navigate('Home');
       })
       .catch(e => {
-        console.log(`Error al obtener solicitudes de servicios ${e.message}`);
+        setLoading(false);
+        console.log(`Error on deleting post ${e.message}`);
       });
   };
 
-  useEffect(() => {
-    getBitacoras();
-  }, [route.params?.bitacoras]);*/}
-  
+
   return (
+    
     <View style={styles.container}>
-      <Spinner visible={isLoading} />
-      <Text style={styles.welcome}>Mostrar Bitacoras</Text>
-      {/*<FlatList
-        data={bitacoras}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity
-              style={styles.itemWrapper}>
-              <Text style={styles.title}>{item.nombre}</Text>
-              <Text>{item.descripcion}</Text>
-              <Text style={styles.author}>{item.estado}</Text>
-            </TouchableOpacity>
-          );
+    <Spinner visible={loading} />
+    <View style={styles.wrapper}>
+      <TextInput
+        placeholder="Nombre"
+        style={styles.input}
+        value={nombre}
+        onChangeText={val => {
+          setNombre(val);
         }}
-        keyExtractor={item => item.id}
-    />*/}
-    <Button
-          title="Cancelar solicitud"
-          color="red"
-          onPress={() => {
-            crearBitacoras(actividad, descripcion);
-          }}
-        />
+      />
+      <TextInput
+        placeholder="Descripción"
+        style={styles.input}
+        value={descripcion}
+        onChangeText={val => {
+          setDescripcion(val);
+        }}
+      />
+
+    <Button title="Actualizar" color="blue" onPress={editServicio} />
+      <View style={{marginTop: 4}}>
+        <Button title="Cancelar" color="red" onPress={deleteServicio} />
+      </View>
     </View>
-  );
+  </View>
+);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  welcome: {
-    fontSize: 18,
-    marginBottom: 8,
-  },
-  mainCardView: {
-    height: 90,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#DEDEDE',
-    borderRadius: 15,
-    shadowColor: "#9E9E9E",
-    shadowOffset: {width: 0, height: 0},
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 16,
-    paddingRight: 14,
-    paddingTop: 50,
-    paddingBottom: 50,
-    marginTop: 6,
-    marginBottom: 6,
-    marginLeft: 16,
-    marginRight: 16,
-  },
-  subCardView: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
-    backgroundColor: "#DEDEDE",
-    borderColor: "#999999",
-    borderWidth: 1,
-    borderStyle: 'solid',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 16,
+    	paddingTop: 16,
+      },
+      wrapper: {
+        width: '80%',
+      },
+      input: {
+        marginBottom: 16,
+        borderWidth: 1,
+        borderColor: '#bbb',
+        borderRadius: 5,
+        padding: 12,
+      },
+      link: {
+        color: 'blue',
+      },
 });
 
 export default MostrarSolicitudesScreen;

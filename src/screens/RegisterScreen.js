@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 16,
   },
   wrapper: {
     width: '80%',
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#bbb',
     borderRadius: 5,
-    paddingHorizontal: 14,
+    padding: 14,
   },
   link: {
     color: 'blue',

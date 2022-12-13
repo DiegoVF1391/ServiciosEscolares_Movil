@@ -10,25 +10,25 @@ import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 
-const CrearBitacoraScreen = ({navigation}) => {
-  const [actividad, setActividad] = useState(null);
+const CrearSolicitudScreen = ({navigation}) => {
+  const [nombre, setNombre] = useState(null);
   const [descripcion, setDescripcion] = useState(null);
   const [loading, setLoading] = useState(false);
 	const {userInfo} = useContext(AuthContext);
-  const [bitacora, setBitacora] = useState({});
+  const [solicitud, setSolicitud] = useState({});
 
-  const crearBitacora = () => {
+  const crearSolicitud = () => {
     setLoading(true);
 
     axios
-      .post(`${BASE_URL}/bitacoras`, {actividad, descripcion},
+      .post(`${BASE_URL}/solicitudes`, {nombre, descripcion},
       {
         headers: {Authorization: `Bearer ${userInfo.access_token}`},
       })
       .then(res => {
         console.log(res.data);
         setLoading(false);
-        setBitacora(res.data);
+        setSolicitud(res.data);
         navigation.navigate('Home');
       })
       .catch(e => {
@@ -43,9 +43,9 @@ const CrearBitacoraScreen = ({navigation}) => {
       <View style={styles.wrapper}>
         <TextInput
           style={styles.input}
-          value={actividad}
-          placeholder="Ingresar actividad"
-          onChangeText={text => setActividad(text)}
+          value={nombre}
+          placeholder="Ingresar nombre de la solicitud"
+          onChangeText={text => setNombre(text)}
         />
 
         <TextInput
@@ -57,7 +57,7 @@ const CrearBitacoraScreen = ({navigation}) => {
 
         <Button
           title="Registrar solicitud"
-          onPress={crearBitacora}
+          onPress={crearSolicitud}
         />
       </View>
     </View>
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CrearBitacoraScreen;
+export default CrearSolicitudScreen;

@@ -45,6 +45,13 @@ const MostrarBitacorasScreen = ({navigation, route}) => {
         }}
         keyExtractor={item => item.id}
     />*/}
+    <Button
+          title="Eliminar bitacora"
+          color="red"
+          onPress={() => {
+            eliminarBitacora();
+          }}
+    />
     </View>
   );
 };

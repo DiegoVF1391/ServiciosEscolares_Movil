@@ -26,14 +26,14 @@ const SolicitudesScreen = ({navigation, route}) => {
 
   useEffect(() => {
     getServicios();
-  }, [route.params?.servicios]);
+  }, [route.params?.servicio]);
 
   if(Object.keys(servicios).length == 0){
     return(
         <View style={styles.container}>
             <Spinner visible={isLoading} />
               <Text style={styles.welcome}>No tienes ninguna solicitud asignada</Text>
-              <Button title="Crear nueva solicitud" onPress={console.log("Nueva Solicitud")} />
+              <Button title="Crear nueva solicitud" onPress={() => {navigation.navigate('Crear Solicitud');}} />
         </View>
     );
   }
@@ -43,14 +43,14 @@ const SolicitudesScreen = ({navigation, route}) => {
             <ScrollView>
             <View style={styles.container}>
           <Spinner visible={isLoading} />
-          <Text style={styles.welcome}>Solicitudes</Text>
+          <Button title="Crear nueva solicitud" onPress={() => {navigation.navigate("Crear Solicitud");}} />
           <FlatList
             data={servicios}
             renderItem={({item}) => {
               return (
                 <TouchableWithoutFeedback
                 onPress={() => {
-                  navigation.navigate('Mostrar Solicitudes');
+                  navigation.navigate('Mostrar Solicitudes', {servicio: item});
                 }}>
                 <View style={styles.mainCardView}>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -102,7 +102,6 @@ const SolicitudesScreen = ({navigation, route}) => {
             keyExtractor={item => item.id}
           />
         </View>
-        <Button title="Crear nueva solicitud" onPress={console.log("Nueva Solicitud")} />
             </ScrollView>
         </SafeAreaView>
       );

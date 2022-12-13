@@ -43,7 +43,8 @@ const BitacorasScreen = ({navigation, route}) => {
             <ScrollView>
             <View style={styles.container}>
           <Spinner visible={isLoading} />
-          <Text style={styles.welcome}>Bitacoras</Text>
+        <Button title="Crear nueva bitacora" onPress={() => {navigation.navigate('Crear Bitacora');}} />
+
           <FlatList
             data={bitacoras}
             renderItem={({item}) => {
@@ -87,7 +88,6 @@ const BitacorasScreen = ({navigation, route}) => {
             keyExtractor={item => item.id}
           />
         </View>
-        <Button title="Crear nueva bitacora" onPress={() => {navigation.navigate('Crear Bitacora');}} />
             </ScrollView>
         </SafeAreaView>
       );
