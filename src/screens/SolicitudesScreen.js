@@ -33,6 +33,7 @@ const SolicitudesScreen = ({navigation, route}) => {
         <View style={styles.container}>
             <Spinner visible={isLoading} />
               <Text style={styles.welcome}>No tienes ninguna solicitud asignada</Text>
+              <Button title="Crear nueva solicitud" onPress={console.log("Nueva Solicitud")} />
         </View>
     );
   }

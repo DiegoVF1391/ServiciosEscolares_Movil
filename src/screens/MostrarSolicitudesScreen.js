@@ -45,6 +45,13 @@ const MostrarSolicitudesScreen = ({navigation, route}) => {
         }}
         keyExtractor={item => item.id}
     />*/}
+    <Button
+          title="Cancelar solicitud"
+          color="red"
+          onPress={() => {
+            crearBitacoras(actividad, descripcion);
+          }}
+        />
     </View>
   );
 };
