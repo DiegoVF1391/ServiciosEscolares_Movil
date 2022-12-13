@@ -1,6 +1,4 @@
 import React, {useContext} from 'react';
-import {Text, View} from 'react-native';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
@@ -8,6 +6,8 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import {AuthContext} from '../context/AuthContext';
 import SplashScreen from '../screens/SplashScreen';
+import SolicitudesScreen from '../screens/SolicitudesScreen';
+import BitacorasScreen from '../screens/BitacorasScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +24,11 @@ const Navigation = () => {
             options={{headerShown: false}}
           />
         ) : userInfo.access_token ? (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="Solicitudes" component={SolicitudesScreen} />
+            <Stack.Screen name="Bitacoras" component={BitacorasScreen} />
+          </>
         ) : (
           <>
             <Stack.Screen
