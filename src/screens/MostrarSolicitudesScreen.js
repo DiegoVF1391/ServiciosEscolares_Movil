@@ -7,13 +7,10 @@ import {BASE_URL} from '../config';
 
 const MostrarSolicitudesScreen = ({navigation, route}) => {
   const {userInfo} = useContext(AuthContext);
-  const [bitacoras, setBitacoras] = useState({});
   const servicio = route.params.servicio;
   const [nombre, setNombre] = useState(servicio.nombre);
   const [descripcion, setDescripcion] = useState(servicio.descripcion);
   const [loading, setLoading] = useState(false);
-
-  console.log(servicio);
 
   const editServicio = () => {
     setLoading(true);

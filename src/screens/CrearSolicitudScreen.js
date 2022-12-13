@@ -1,18 +1,20 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   Button,
   TextInput,
   View,
   StyleSheet,
+  Picker,
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 
-const CrearSolicitudScreen = ({navigation}) => {
+const CrearSolicitudScreen = ({navigation, route}) => {
   const [nombre, setNombre] = useState(null);
   const [descripcion, setDescripcion] = useState(null);
+  const [id_departamento, setIdDepartamento] = useState(null);
   const [loading, setLoading] = useState(false);
 	const {userInfo} = useContext(AuthContext);
   const [solicitud, setSolicitud] = useState({});
@@ -21,7 +23,7 @@ const CrearSolicitudScreen = ({navigation}) => {
     setLoading(true);
 
     axios
-      .post(`${BASE_URL}/solicitudes`, {nombre, descripcion},
+      .post(`${BASE_URL}/servicios`, {nombre, descripcion, id_departamento},
       {
         headers: {Authorization: `Bearer ${userInfo.access_token}`},
       })
@@ -33,7 +35,7 @@ const CrearSolicitudScreen = ({navigation}) => {
       })
       .catch(e => {
         setLoading(false);
-        console.log(`Error al obtener solicitudes de servicios ${e.message}`);
+        console.log(`Error al crear solicitudes de servicios ${e.message}`);
       });
   };
 
@@ -54,6 +56,15 @@ const CrearSolicitudScreen = ({navigation}) => {
           placeholder="Ingresar la descripción"
           onChangeText={text => setDescripcion(text)}
         />
+
+			<Picker
+      	selectedValue={id_departamento}
+        style={styles.input}
+        onValueChange={(itemValue) => setIdDepartamento(parseInt(itemValue))}
+      >
+        <Picker.Item label="Mantenimiento" value="1" />
+        <Picker.Item label="IT" value="2" />
+      </Picker>
 
         <Button
           title="Registrar solicitud"

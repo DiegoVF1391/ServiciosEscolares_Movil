@@ -26,7 +26,7 @@ const BitacorasScreen = ({navigation, route}) => {
 
   useEffect(() => {
     getBitacoras();
-  }, [route.params?.bitacoras]);
+  }, [route.params?.bitacora]);
   
   if(Object.keys(bitacoras).length == 0){
     return(
@@ -51,7 +51,7 @@ const BitacorasScreen = ({navigation, route}) => {
               return (
                 <TouchableWithoutFeedback
                 onPress={() => {
-                  navigation.navigate('Mostrar Bitacoras');
+                  navigation.navigate('Mostrar Bitacoras', {bitacora: item});
                 }}>
                 <View style={styles.mainCardView}>
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>

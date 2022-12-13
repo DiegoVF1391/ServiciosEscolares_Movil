@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
+import {Button, StyleSheet, Text, View, FlatList, SafeAreaView, ScrollView} from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
