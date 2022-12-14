@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View, FlatList, TextInput} from 'react-native';
+import {Button, StyleSheet, Text, View, FlatList, TextInput, CheckBox} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {AuthContext} from '../context/AuthContext';
 import axios from 'axios';
@@ -10,6 +10,10 @@ const MostrarSolicitudesScreen = ({navigation, route}) => {
   const servicio = route.params.servicio;
   const [nombre, setNombre] = useState(servicio.nombre);
   const [descripcion, setDescripcion] = useState(servicio.descripcion);
+  const [comentarios, setComentarios] = useState(servicio.comentarios);
+  const [fechaAsignacion, setFechaAsignacion] = useState(servicio.fechaAsignacion);
+  const [estado, setEstado] = useState(servicio.estado);
+  const [isSelected, setSelection] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const editServicio = () => {
@@ -21,6 +25,8 @@ const MostrarSolicitudesScreen = ({navigation, route}) => {
         {
           nombre,
           descripcion,
+          comentarios,
+          estado,
         },
         {
           headers: {Authorization: `Bearer ${userInfo.access_token}`},
@@ -29,6 +35,7 @@ const MostrarSolicitudesScreen = ({navigation, route}) => {
       .then(res => {
         setLoading(false);
         console.log(res.data);
+        console.log(estado);
         navigation.navigate('Home');
       })
       .catch(e => {
@@ -77,6 +84,26 @@ const MostrarSolicitudesScreen = ({navigation, route}) => {
           setDescripcion(val);
         }}
       />
+      
+      <Text style={styles.input}>{fechaAsignacion}</Text>
+
+      <TextInput
+        placeholder="Comentarios"
+        style={styles.input}
+        value={comentarios}
+        onChangeText={val => {
+          setComentarios(val);
+        }}
+      />
+
+			{/*<View style={styles.checkboxContainer}>
+        <CheckBox
+          value={isSelected}
+          onValueChange={setSelection}
+          style={styles.checkbox}
+        />
+        <Text style={styles.label}>Ya termino la solicitud asignada?</Text>
+      </View>*/}
 
     <Button title="Actualizar" color="blue" onPress={editServicio} />
       <View style={{marginTop: 4}}>
@@ -95,6 +122,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
     	paddingTop: 16,
       },
+      checkboxContainer: {
+        flexDirection: "row",
+        marginBottom: 20,
+      },
+      checkbox: {
+        alignSelf: "center",
+      },
       wrapper: {
         width: '80%',
       },
@@ -107,6 +141,9 @@ const styles = StyleSheet.create({
       },
       link: {
         color: 'blue',
+      },
+      label: {
+        margin: 8,
       },
 });
 
